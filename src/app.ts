@@ -1,12 +1,18 @@
-import express, { Request, Response, NextFunction } from "express";
 import path from "path";
 
+import express, { Request, Response, NextFunction } from "express";
 import bodyParser from "body-parser";
+import helmet from "helmet";
+import compression from "compression";
 
 import routes from "./routes/routes";
 import rootPath from "./utils/path";
 
 const app = express();
+
+
+app.use(helmet());
+app.use(compression());
 
 app.use(bodyParser.json());
 
@@ -32,4 +38,4 @@ app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
   res.status(500).json({ message: error });
 });
 
-app.listen(8080);
+app.listen(process.env.PORT || 8080);
